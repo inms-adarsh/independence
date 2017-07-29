@@ -136,8 +136,11 @@
                     },
                     summary: {
                         totalItems: [{
-                            column: 'name',
-                            summaryType: 'count'
+                            column: 'balancedQuantity',
+                            summaryType: 'sum',
+                            texts: {
+                                sum: 'Total Balanced'
+                            }
                         }]
                     },
                     editing: {

@@ -26,17 +26,15 @@
 
         var quantityList = [{
             id: 0,
-            quantity: 3
+            quantity: 6
         }, {
             id: 1,
-            quantity: 5
-        }, {
-            id: 2,
             quantity: 10
         }, {
-            id: 3,
-            quantity: 15
+            id: 2,
+            quantity: 20
         }];
+
         return service;
 
         //////////
@@ -172,8 +170,11 @@
                     },
                     summary: {
                         totalItems: [{
-                            column: 'name',
-                            summaryType: 'count'
+                            column: 'quantity',
+                            summaryType: 'sum',
+                            texts: {
+                                sum: 'Total'
+                            }
                         }]
                     },
                     editing: {
@@ -294,8 +295,16 @@
                         if (allowedSum !== 0) {
                             if (elem.balancedQuantity < quantityList[elem.quantity].quantity) {
                                 var diff = quantityList[elem.quantity].quantity - elem.balancedQuantity;
-                                elem.balancedQuantity = elem.balancedQuantity + diff;
-                                allowedSum = allowedSum - diff;
+                                if(allowedSum > diff) {
+                                    elem.balancedQuantity = elem.balancedQuantity + diff;
+                                    allowedSum = allowedSum - diff;
+                                } else if(allowedSum === diff) {
+                                    elem.balancedQuantity = elem.balancedQuantity + allowedSum;
+                                    allowedSum = 0;
+                                } else if(allowedSum < diff) {
+                                    elem.balancedQuantity = elem.balancedQuantity + allowedSum;
+                                    allowedSum = 0;
+                                }
 
                                 mergeObj['tenant-customer-bulkbuy-records/' + tenantId + '/' + key.customerSelected + '/records/' + elem['$id'] + '/balancedQuantity/'] = elem.balancedQuantity;
                                 mergeObj['tenant-bulkbuys/' + tenantId + '/' + elem['$id'] + '/balancedQuantity/'] = elem.balancedQuantity;
