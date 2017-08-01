@@ -115,6 +115,8 @@
             var tenantObj = rootRef.child('tenants'),
                 def = $q.defer();
             
+            delete tenant.password;
+
             return firebaseUtils.addData(tenantObj, tenant);        }
 
         /**
