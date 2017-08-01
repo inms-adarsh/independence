@@ -76,7 +76,7 @@
         });
 
         msNavigationServiceProvider.saveItem('apps.bulkbuys.activation', {
-            title: 'Purchase',
+            title: 'Assign Quantity',
             state: 'app.bulkbuys.list',
             weight: 1
         });

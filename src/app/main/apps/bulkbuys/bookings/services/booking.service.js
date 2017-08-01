@@ -127,17 +127,24 @@
                     validationRules: [{
                         type: 'required',
                         message: 'Please select a quantity'
-                    }]
+                    }, { 
+                        type: 'pattern', 
+                        pattern: '^[1-9][0-9]*$', 
+                        message: 'Value must be more then 0' 
+                    }
+]
                 }, {
                     label: {
-                        text: 'Balanced Units'
+                        text: 'Balance Units'
                     },
                     dataField: 'balancedUnits',
                     name: 'units',
                     visible: true,
-                    disabled: true,
-                    fieldEditDisabled: true,
-                    editorType: 'dxTextBox'
+                    editorType: 'dxTextBox',
+                    editorOptions: {
+                        disabled: true,
+                        fieldEditDisabled: true,
+                    }
                 }]
             };
             return bookingForm;
