@@ -6,7 +6,7 @@
         .factory('BulkbuyCustomerService', customerService);
 
     /** @ngInject */
-    function customerService($firebaseArray, $firebaseObject, $q, authService, auth, firebaseUtils, dxUtils, config) {
+    function customerService($firebaseArray, $firebaseObject, $q, authService, auth, msUtils, firebaseUtils, dxUtils, config) {
         var tenantId = authService.getCurrentTenant();
         // Private variables
 
@@ -18,6 +18,17 @@
             fetchCustomerList: fetchCustomerList
         };
 
+        var quantityList = [{
+            id: 0,
+            quantity: 6
+        }, {
+            id: 1,
+            quantity: 10
+        }, {
+            id: 2,
+            quantity: 20
+        }];
+
         return service;
 
         //////////
@@ -28,86 +39,58 @@
          */
         function formOptions() {
             var formOptionsItems = {
-
-                bindingOptions: {
-                    formData: 'vm.customers'
-                },
-                colCount: 2,
+                minColWidth: 233,
+                colCount: "auto",
+                labelLocation: "top",
+                validationGroup: "customerData",
                 items: [{
                     dataField: 'name',
-                    label: {
-                        text: 'Name'
-                    },
+                    caption: 'Name',
                     validationRules: [{
                         type: 'required',
                         message: 'Name is required'
-                    }]
+                    }],
                 }, {
                     dataField: 'phone',
-                    label: {
-                        text: 'Phone'
-                    },
-                    editorOptions: {
-                        mask: '0000000000'
-                    },
+                    caption: 'Phone',
                     validationRules: [{
                         type: 'required',
                         message: 'Phone number is required'
-                    }]
+                    }],
+                    editorOptions: {
+                        mask: '0000000000'
+                    }
                 }, {
                     dataField: 'email',
-                    label: {
-                        text: 'Email'
-                    },
+                    caption: 'Email',
                     validationRules: [{
                         type: 'email',
                         message: 'Please enter valid e-mail address'
                     }]
                 }, {
-                    dataField: 'alias',
-                    label: {
-                        text: 'Short Name'
-                    }
+                    dataField: 'source',
+                    caption: 'Source'
                 }, {
-                    dataField: 'gstno',
-                    label: {
-                        text: 'GST No'
-                    },
+                    dataField: 'date',
+                    caption: 'Date',
+                    editorType: 'dxDateBox',
+                    validationRules: [{
+                        type: 'required',
+                        message: 'Field is required'
+                    }],
                     editorOptions: {
-                        mask: '00AAAAAAAAAA0A0'
+                        width: '100%',
+                        onInitialized: function (e) {
+                            e.component.option('value', new Date());
+                        }
                     }
-                }, {
-                    dataField: 'adress',
-                    label: {
-                        text: 'Address'
-                    }
-                }, {
-                    dataField: 'city',
-                    label: {
-                        text: 'City'
-                    }
-                }, {
-                    dataField: 'state',
-                    label: {
-                        text: 'State'
-                    }
-                }, {
-                    dataField: 'zipcode',
-                    label: {
-                        text: 'ZIP/Pincode'
-                    },
-                    editorOptions: {
-                        mask: '000000'
-                    }
-                }],
-                onContentReady: function () {
-                    var dxFormInstance = $('#customer-form').dxForm('instance');
-                }
+
+                }]
             };
             return formOptionsItems;
         }
 
-        
+
         /**
          * Save form data
          * @returns {Object} Customer Form data
@@ -115,6 +98,9 @@
         function saveCustomer(customerObj) {
             var ref = rootRef.child('tenant-bulkbuy-customers').child(tenantId);
             customerObj.user = auth.$getAuth().uid;
+            if (!customerObj.date) {
+                customerObj.date = new Date();
+            }
             customerObj.date = customerObj.date.toString();
             return firebaseUtils.addData(ref, customerObj);
         }

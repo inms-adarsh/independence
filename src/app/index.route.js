@@ -16,6 +16,7 @@
         // this redirects to the login page whenever that is encountered
         $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
             if (error === "AUTH_REQUIRED") {
+                localStorage.clear();
                 $state.go(loginRedirectPath);
             }
         });

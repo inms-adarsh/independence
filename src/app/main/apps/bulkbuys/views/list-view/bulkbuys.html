@@ -40,7 +40,14 @@
                 <!-- DEMO CONTENT -->
                 <div id="bulkbuy-grid" dx-data-grid="vm.bulkbuyGridOptions"></div>
                 <!-- / DEMO CONTENT -->
-
+                    <div class="popup" 
+                    dx-popup="popupOptions">
+                    <div data-options="dxTemplate: { name:'info' }">
+                        <div dx-form="vm.bulkbuyform"></div>
+                        </br>
+                        <div dx-button="buttonOptions"></div>
+                    </div>
+                </div> 
             </md-content>
             <!-- / CONTENT -->
 

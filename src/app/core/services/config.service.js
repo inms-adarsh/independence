@@ -296,7 +296,7 @@
             var customerListSource = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
                     var defer = $q.defer(),
-                        ref = rootRef.child('tenant-customers').child(tenantId).orderByChild('deactivated').equalTo(null);
+                        ref = rootRef.child('tenant-bulkbuy-customers').child(tenantId).orderByChild('deactivated').equalTo(null);
                     firebaseUtils.fetchList(ref).then(function (data) {
                         defer.resolve(data);
                     });
@@ -304,7 +304,7 @@
                 },
                 byKey: function (key) {
                     var defer = $q.defer(),
-                        ref = rootRef.child('tenant-customers').child(tenantId).child(key);
+                        ref = rootRef.child('tenant-bulkbuy-customers').child(tenantId).child(key);
                     firebaseUtils.getItemByRef(ref).then(function (data) {
                         defer.resolve(data);
                     });
@@ -340,7 +340,8 @@
                         console.log(itemData);
                     }
                 },
-                allowUpdating: false
+                allowUpdating: false,
+                groupIndex: 0
             }, {
                 dataField: 'phone',
                 caption: 'Phone',
@@ -463,11 +464,17 @@
                 dataField: 'total',
                 caption: 'Total',
                 calculateCellValue: function (data) {
-                    if (data.amountOnLiquor && data.amountOnFood && data.amountOnBeer) {
-                        return data.amountOnLiquor + data.amountOnFood + data.amountOnBeer;
-                    } else {
-                        return 0;
-                    }
+                        var count = 0;
+                        if(data.amountOnBeer) {
+                            count = count + data.amountOnBeer;
+                        }
+                        if(data.amountOnFood) {
+                            count = count + data.amountOnFood;
+                        }
+                        if(data.amountOnLiquor) {
+                            count = count + data.amountOnLiquor
+                        }
+                        return count;
                 }
             }];
             return gridCols;

@@ -6,11 +6,9 @@
         .controller('BulkbuyCustomersController', CustomersController);
 
     /** @ngInject */
-    function CustomersController($state, $scope, $mdDialog, $document, $q, $compile, BulkbuyCustomerService, dxUtils, authService, firebaseUtils) {
+    function CustomersController($state, $scope, msUtils, $mdDialog, $document, $q, $compile, BulkbuyCustomerService, dxUtils, authService, firebaseUtils) {
         var vm = this,
             tenantId = authService.getCurrentTenant();;
-
-        // Data
 
         // Methods
         vm.addDialog = addDialog;
@@ -102,7 +100,7 @@
                         allowAdding: true,
                         allowUpdating: true,
                         allowDeleting: true,
-                        mode: 'row'
+                        mode: 'form'
                     },
                     onRowRemoving: function(e) {
                         var d = $.Deferred();
@@ -115,6 +113,23 @@
                             }
                         });
                         e.cancel = d.promise();
+                    }, 
+                    onRowValidating: function(e) {
+                        var d = $.Deferred(),
+                            ref = rootRef.child('tenant-bulkbuy-customers').child(tenantId).orderByChild('deactivated').equalTo(null);
+
+                        firebaseUtils.fetchList(ref).then(function(data) {
+                            var phoneIndex = msUtils.getIndexByArray(data, 'phone', e.newData.phone),
+                                emailIndex = msUtils.getIndexByArray(data, 'email', e.newData.email);
+                            
+                            if(phoneIndex > -1) {
+                                e.isValid = false;
+                                e.errorText = "Phone number already registered!"
+                            } else if(e.newData.email && emailIndex > -1) {
+                                e.isValid = false;
+                                e.errorText = "Email address already registered!"
+                            }
+                        });
                     }
                 };
 

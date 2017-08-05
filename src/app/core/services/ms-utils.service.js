@@ -18,7 +18,8 @@
             detectBrowser: detectBrowser,
             guidGenerator: guidGenerator,
             isMobile     : isMobile,
-            toggleInArray: toggleInArray
+            toggleInArray: toggleInArray,
+            getIndexByArray: getIndexByArray
         };
 
         return service;
@@ -35,6 +36,21 @@
         function exists(item, list)
         {
             return list.indexOf(item) > -1;
+        }
+
+        /**
+         * Get Index of key in object array
+         * @param {*} data 
+         * @param {*} key 
+         * @param {*} value 
+         */
+        function getIndexByArray(data, key, value) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i][key] == value) {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         /**

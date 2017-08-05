@@ -33,6 +33,7 @@
             }
           } else {
             $state.go('app.auth_login');
+            localStorage.clear();
           }
         });
         
