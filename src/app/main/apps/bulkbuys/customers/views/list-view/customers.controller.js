@@ -9,7 +9,7 @@
     function CustomersController($state, $scope, msUtils, $mdDialog, $document, $q, $compile, BulkbuyCustomerService, dxUtils, authService, firebaseUtils) {
         var vm = this,
             tenantId = authService.getCurrentTenant();;
-
+        
         // Methods
         vm.addDialog = addDialog;
         vm.editDialog = editDialog;

@@ -451,15 +451,24 @@
             }, {
                 dataField: 'amountOnBeer',
                 dataType: 'number',
-                caption: 'Amount on Beer'
+                caption: 'Amount on Beer',
+                calculateCellValue: function(data) {
+                    return data.amountOnBeer? data.amountOnBeer: 0
+                }
             }, {
                 dataField: 'amountOnFood',
                 dataType: 'number',
-                caption: 'Amount on Food'
+                caption: 'Amount on Food',
+                calculateCellValue: function(data) {
+                    return data.amountOnFood? data.amountOnFood: 0
+                }
             }, {
                 dataField: 'amountOnLiquor',
                 caption: 'Amount On Liquor',
-                dataType: 'number'
+                dataType: 'number',
+                calculateCellValue: function(data) {
+                    return data.amountOnLiquor? data.amountOnLiquor: 0
+                }
             }, {
                 dataField: 'total',
                 caption: 'Total',

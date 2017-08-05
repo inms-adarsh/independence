@@ -109,8 +109,20 @@
                     },
                     summary: {
                         totalItems: [{
-                            column: 'name',
-                            summaryType: 'count'
+                            column: 'amountOnLiquor',
+                            summaryType: 'sum'
+                        },{
+                            column: 'amountOnBeer',
+                            summaryType: 'sum'
+                        },{
+                            column: 'amountOnFood',
+                            summaryType: 'sum'
+                        },{
+                            column: 'total',
+                            summaryType: 'sum',
+                            customizeText: function(data) {
+                                return 'Total '+ data.value;
+                            }
                         }]
                     },
                     editing: {

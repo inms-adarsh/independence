@@ -44,6 +44,9 @@
             closeOnOutsideClick: true,
             bindingOptions: {
                 visible: "visiblePopup",
+            },
+            onHidden: function() {
+                customerFormInstance.resetValues();
             }
         };
 
