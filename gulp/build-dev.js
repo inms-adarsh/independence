@@ -47,8 +47,6 @@ gulp.task('html-dev', ['inject'], function ()
         .pipe($.ngAnnotate())
         .pipe(jsFilter.restore)
         .pipe(cssFilter)
-        .pipe($.sourcemaps.init())
-        .pipe($.sourcemaps.write('maps'))
         .pipe(cssFilter.restore)
         .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
         .pipe($.size({

@@ -100,7 +100,7 @@
                         allowAdding: true,
                         allowUpdating: true,
                         allowDeleting: true,
-                        mode: 'form'
+                        mode: 'row'
                     },
                     onRowRemoving: function(e) {
                         var d = $.Deferred();
