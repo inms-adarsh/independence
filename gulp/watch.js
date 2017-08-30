@@ -11,7 +11,11 @@ function isOnlyChange(event)
     return event.type === 'changed';
 }
 
-gulp.task('watch', ['inject'], function ()
+gulp.task('watch', ['inject'], watcher);
+
+gulp.task('watch:prod', ['inject-prod'], watcher);
+
+var watcher = function ()
 {
     gulp.watch([path.join(conf.paths.src, '/*.html'), 'bower.json'], ['inject-reload']);
 
@@ -49,4 +53,4 @@ gulp.task('watch', ['inject'], function ()
     {
         browserSync.reload(event.path);
     });
-});
+}

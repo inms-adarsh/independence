@@ -14,6 +14,7 @@ var gutil = require('gulp-util');
 exports.paths = {
     src : 'src',
     dist: '../independence-deploy/public',
+    prod: '../independence-prod/public',
     tmp : '.tmp',
     e2e : 'e2e'
 };
